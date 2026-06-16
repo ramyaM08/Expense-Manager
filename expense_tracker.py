@@ -101,6 +101,11 @@ class ExpenseManager:
 
         if not found:
             print(description.upper(), "expense not found to delete")
+
+    def save_expenses(self):
+         with open("expenses.txt", "w") as file:
+             for expense in self.expenses:
+                 file.write(f"{expense.amount},{expense.category},{expense.description}\n")
     
 expenses = ExpenseManager()
 
@@ -139,4 +144,5 @@ expenses.list_expenses()
 #expenses.delete_expense_by_description("coffee")
 #expenses.list_expenses()
 
+expenses.save_expenses()
 
