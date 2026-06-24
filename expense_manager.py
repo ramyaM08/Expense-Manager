@@ -15,77 +15,30 @@ class ExpenseManager:
         for expense in self.expenses:
             expense.display()
 
-    def search_by_amount(self, amount):
+    def search_expense(self, field, value):
         found = False
 
         for expense in self.expenses:
-            if expense.amount == amount:
+            field_value = getattr(expense, field)
+            if str(field_value).lower() == str(value).lower():
                 expense.display()
                 found = True
-                print(found)
 
         if not found:
             print("No Expense Found")
 
-    def search_by_category(self, category):
+    def delete_expense(self, field, value):
         found = False
 
         for expense in self.expenses:
-            if expense.category.lower() == category.lower():
-                expense.display()
-                found = True
-                print(found)
-
-        if not found:
-            print("No Expense Found")
-
-    def search_by_description(self, description):
-        found = False
-
-        for expense in self.expenses:
-            if expense.description.lower() == description.lower():
-                expense.display()
-                found = True
-                print(found)
-
-        if not found:
-            print("No Expense Found")
-
-    def delete_expense_by_amount(self, amount):
-        found = False
-
-        for expense in self.expenses:
-            if expense.amount == amount:
+            field_value = getattr(expense, field)
+            if str(field_value).lower() == str(value).lower():
                 self.expenses.remove(expense)
                 found = True
-                print(expense.amount, "Expense deleted")
+                print(field_value, "Expense deleted")
 
         if not found:
-            print(amount, "expense not found to delete")
-
-    def delete_expense_by_category(self, category):
-        found = False
-
-        for expense in self.expenses:
-            if expense.category.lower() == category.lower():
-                self.expenses.remove(expense)
-                found = True
-                print(expense.category.upper(), "Expense deleted")
-
-        if not found:
-            print(category.upper(), "expense not found to delete")
-
-    def delete_expense_by_description(self, description):
-        found = False
-
-        for expense in self.expenses:
-            if expense.description.lower() == description.lower():
-                self.expenses.remove(expense)
-                found = True
-                print(expense.description.upper(), "Expense deleted")
-
-        if not found:
-            print(description.upper(), "expense not found to delete")
+            print(value, "expense not found to delete")
 
     def save_expenses(self):
         with open("expenses.txt", "w") as file:
