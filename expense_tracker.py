@@ -106,35 +106,54 @@ class ExpenseManager:
          with open("expenses.txt", "w") as file:
              for expense in self.expenses:
                  file.write(f"{expense.amount},{expense.category},{expense.description}\n")
-    
-expenses = ExpenseManager()
 
-expense1 = Expense(1000, "food", "coffee")
+    def load_expenses(self):
 
-expense2 = Expense(500, "stationery", "books")
+        try:
+            with open("expenses.txt", "r") as file:
+                lines = file.readlines()
 
-expense3 = Expense(5000, "Hospital", "Checkup")
+            for line in lines:
+                parts = line.strip().split(",")
 
-expenses.add_expense(expense1) 
+                expense = Expense(
+                    int(parts[0]),
+                    parts[1],
+                    parts[2]
+                )
 
-expenses.add_expense(expense2) 
+                self.add_expense(expense)
 
-expenses.add_expense(expense3) 
+        except FileNotFoundError:
+            print("No saved expenses found")
 
-try:
-    expense4 = Expense(
-        -500,
-        "Food",
-        "Burger"
-    )
+# expense1 = Expense(1000, "food", "coffee")
 
-    expenses.add_expense(expense4)
+# expense2 = Expense(500, "stationery", "books")
 
-except ValueError as e:
-    print("Error:", e)
+# expense3 = Expense(5000, "Hospital", "Checkup")
+
+# expenses = ExpenseManager()
 
 
-expenses.list_expenses()
+# expenses.add_expense(expense1) 
+
+# expenses.add_expense(expense2) 
+
+# expenses.add_expense(expense3) 
+# expenses.save_expenses()
+
+# try:
+#     expense4 = Expense(
+#         -500,
+#         "Food",
+#         "Burger"
+#     )
+
+#     expenses.add_expense(expense4)
+
+# except ValueError as e:
+#     print("Error:", e)
 
 #expenses.search_by_amount(2000)
 #expenses.search_by_category("Shopping")
@@ -144,5 +163,9 @@ expenses.list_expenses()
 #expenses.delete_expense_by_description("coffee")
 #expenses.list_expenses()
 
-expenses.save_expenses()
+# Main Function 
+expenses = ExpenseManager()
 
+expenses.load_expenses()
+
+expenses.list_expenses()
